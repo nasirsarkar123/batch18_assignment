@@ -40,3 +40,4 @@ defect. Before submitting:
    what's described.
 4. If you find additional defects while executing, copy
    `BUG-01_leave_date_range_validation.md` as a template for each new one.
+   
