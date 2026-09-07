@@ -46,14 +46,6 @@ Both suites also run individually — each Playwright spec file and the Postman
 collection can be executed on its own (see the sub-folder READMEs) — and together
 in one CI run, see `.github/workflows/ci.yml`.
 
-## Where each part lives
-
-| Part | Marks | Location |
-|------|-------|----------|
-| A — UI Automation | 50 | `ui-automation/` |
-| B — Manual Testing | 20 | `manual-tests/` |
-| C — GitHub Workflow | 10 | this repo's commit history + `.github/workflows/ci.yml` |
-| D — API Automation | 20 | `api-automation/` |
 
 ## Publishing this repo to GitHub
 
