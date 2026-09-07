@@ -4,16 +4,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { LeavePage } from '../pages/LeavePage';
 import { futureDate } from '../utils/dataGenerator';
 
-/**
- * Q4 (10 marks): Log in -> navigate to Leave -> apply for leave with
- * specific dates -> verify it appears under "My Leave" with status
- * "Pending Approval" -> cancel the request -> verify the status updates
- * correctly.
- *
- * Fully independent — logs in itself and applies for a fresh date range
- * every run (a week from today) so it never collides with leave requests
- * created by previous runs.
- */
+
 test.describe('Leave - Apply and cancel', () => {
   test('applies for leave, verifies Pending Approval, then cancels it', async ({ page }) => {
     const login = new LoginPage(page);
