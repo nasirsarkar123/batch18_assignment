@@ -1,0 +1,22 @@
+{
+  "name": "orangehrm-ui-automation",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript UI automation (POM) for OrangeHRM demo",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:login": "playwright test tests/login.spec.ts",
+    "test:pim": "playwright test tests/pim-add-employee.spec.ts",
+    "test:admin": "playwright test tests/admin-edit-user.spec.ts",
+    "test:leave": "playwright test tests/leave-apply-cancel.spec.ts",
+    "report": "allure generate allure-results --clean -o allure-report && allure open allure-report",
+    "report:html": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.14.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.0",
+    "typescript": "^5.5.0"
+  }
+}
