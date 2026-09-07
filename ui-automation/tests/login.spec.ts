@@ -1,12 +1,7 @@
 import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 
-/**
- * Q1 (10 marks): Attempt login with an invalid username/password combination.
- * Verify the correct error message is displayed.
- *
- * Fully independent — only needs a fresh browser context, no prior state.
- */
+
 test.describe('Login', () => {
   test('shows an error for an invalid username/password combination', async ({ page }) => {
     const login = new LoginPage(page);
