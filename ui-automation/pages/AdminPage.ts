@@ -7,13 +7,12 @@ export class AdminPage extends BasePage {
   readonly resultsRows: Locator;
   readonly editIcon: Locator;
 
-  // Edit user form
+ 
   readonly statusToggle: Locator;
   readonly saveButton: Locator;
   readonly userRoleDropdown: Locator;
 
-  // Add User form (used to create a disposable user so Q3 never mutates
-  // shared/shared-account demo data)
+  
   readonly addButton: Locator;
   readonly employeeNameAutocomplete: Locator;
   readonly newUsernameInput: Locator;
@@ -45,7 +44,7 @@ export class AdminPage extends BasePage {
     await this.waitForNoSpinner();
   }
 
-  /** Fills the Add User form, picking the first autocomplete suggestion for Employee Name. */
+  
   async createUser(username: string, password: string) {
     await this.employeeNameAutocomplete.fill('a');
     const suggestion = this.page.locator('.oxd-autocomplete-option').first();
@@ -60,6 +59,7 @@ export class AdminPage extends BasePage {
   }
 
   async searchByUsername(username: string) {
+    await this.usernameSearchInput.waitFor({ state: 'visible', timeout: 30_000 });
     await this.usernameSearchInput.fill(username);
     await this.searchButton.click();
     await this.waitForNoSpinner();
