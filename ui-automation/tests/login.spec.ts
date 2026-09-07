@@ -1,0 +1,26 @@
+import { test } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+
+/**
+ * Q1 (10 marks): Attempt login with an invalid username/password combination.
+ * Verify the correct error message is displayed.
+ *
+ * Fully independent — only needs a fresh browser context, no prior state.
+ */
+test.describe('Login', () => {
+  test('shows an error for an invalid username/password combination', async ({ page }) => {
+    const login = new LoginPage(page);
+
+    await test.step('Open the login page', async () => {
+      await login.open();
+    });
+
+    await test.step('Submit an invalid username/password', async () => {
+      await login.login('InvalidUser_123', 'WrongPass_123');
+    });
+
+    await test.step('Verify the "Invalid credentials" error is shown', async () => {
+      await login.expectInvalidCredentialsError();
+    });
+  });
+});
