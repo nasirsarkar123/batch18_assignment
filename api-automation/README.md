@@ -1,4 +1,4 @@
-# Part D — API Automation (Postman + Newman)
+# Part D — API Automation (Postman+Newman)
 
 Collection: `JSONPlaceholder-Users.postman_collection.json`
 API under test: https://jsonplaceholder.typicode.com/users
