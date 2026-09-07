@@ -1,0 +1,13 @@
+{
+  "name": "orangehrm-api-automation",
+  "version": "1.0.0",
+  "description": "Postman collection for JSONPlaceholder /users, run headlessly via Newman",
+  "scripts": {
+    "test": "newman run JSONPlaceholder-Users.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export newman-report/report.html",
+    "test:cli": "newman run JSONPlaceholder-Users.postman_collection.json"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

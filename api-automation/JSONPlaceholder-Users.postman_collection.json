@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "JSONPlaceholder Users API",
+    "_postman_id": "b6f0a1e0-6b1d-4a90-9a2a-users-api-suite",
+    "description": "Part D - API Automation. GET all users, extract an id, then PUT an update to /users/{id} using that id. Every request validates its HTTP status code.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://jsonplaceholder.typicode.com", "type": "string" },
+    { "key": "storedUserId", "value": "", "type": "string" },
+    { "key": "storedUser", "value": "", "type": "string" },
+    { "key": "randomSuffix", "value": "", "type": "string" },
+    { "key": "updatedBody", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1 - GET all users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Step 1: status code + shape validation",
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const users = pm.response.json();",
+              "",
+              "pm.test('Response contains user data (non-empty array)', function () {",
+              "    pm.expect(users).to.be.an('array');",
+              "    pm.expect(users.length).to.be.greaterThan(0);",
+              "});",
+              "",
+              "pm.test('Each user object includes id, name and email', function () {",
+              "    users.forEach(function (user) {",
+              "        pm.expect(user).to.have.property('id');",
+              "        pm.expect(user).to.have.property('name');",
+              "        pm.expect(user).to.have.property('email');",
+              "    });",
+              "});",
+              "",
+              "// Step 2: extract one user's id from the response and store it",
+              "const firstUser = users[0];",
+              "pm.collectionVariables.set('storedUserId', firstUser.id);",
+              "pm.collectionVariables.set('storedUser', JSON.stringify(firstUser));",
+              "pm.collectionVariables.set('randomSuffix', Date.now().toString());",
+              "",
+              "pm.test('A user id was extracted and stored', function () {",
+              "    pm.expect(pm.collectionVariables.get('storedUserId')).to.not.be.empty;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2 - PUT update user by stored id",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Step 3: build the /users/{id} endpoint using the id stored by request 1",
+              "const storedUserId = pm.collectionVariables.get('storedUserId');",
+              "if (!storedUserId) {",
+              "    throw new Error('storedUserId is empty - run \"1 - GET all users\" first so the id is captured.');",
+              "}",
+              "",
+              "// Step 4: build the PUT body - keep the original user's fields (e.g. phone)",
+              "// but update name, email and company.name with dynamically generated values.",
+              "const original = JSON.parse(pm.collectionVariables.get('storedUser'));",
+              "const suffix = pm.collectionVariables.get('randomSuffix');",
+              "",
+              "const updatedBody = Object.assign({}, original, {",
+              "    name: 'QA Updated Name ' + suffix,",
+              "    email: 'qa.updated.' + suffix + '@example.com',",
+              "    company: Object.assign({}, original.company, {",
+              "        name: 'QA Updated Company ' + suffix",
+              "    })",
+              "});",
+              "",
+              "pm.collectionVariables.set('updatedBody', JSON.stringify(updatedBody));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const body = pm.response.json();",
+              "",
+              "pm.test('Returned id matches the stored variable', function () {",
+              "    pm.expect(String(body.id)).to.eql(String(pm.collectionVariables.get('storedUserId')));",
+              "});",
+              "",
+              "pm.test('phone field is not empty', function () {",
+              "    pm.expect(body.phone).to.be.a('string').and.not.equal('');",
+              "});",
+              "",
+              "pm.test('name, email and company.name reflect the update', function () {",
+              "    const sentBody = JSON.parse(pm.collectionVariables.get('updatedBody'));",
+              "    pm.expect(body.name).to.eql(sentBody.name);",
+              "    pm.expect(body.email).to.eql(sentBody.email);",
+              "    pm.expect(body.company.name).to.eql(sentBody.company.name);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{storedUserId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["users", "{{storedUserId}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{{updatedBody}}",
+          "options": { "raw": { "language": "json" } }
+        }
+      },
+      "response": []
+    }
+  ]
+}
