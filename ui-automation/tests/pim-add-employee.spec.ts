@@ -4,13 +4,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { PIMPage } from '../pages/PIMPage';
 import { randomEmployeeName } from '../utils/dataGenerator';
 
-/**
- * Q2 (15 marks): Log in with valid admin credentials -> navigate to PIM ->
- * add a new employee using randomly generated data -> verify the employee
- * appears when searched in the employee list -> log out.
- *
- * Fully independent — logs in and generates its own unique employee data.
- */
+
 test.describe('PIM - Add Employee', () => {
   test('adds a new employee and finds them via search, then logs out', async ({ page }) => {
     const login = new LoginPage(page);
