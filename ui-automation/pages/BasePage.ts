@@ -7,11 +7,15 @@ export class BasePage {
     await this.page.goto('/web/index.php/auth/login');
   }
 
-  /** Waits for the oxd loading spinner (if any) to disappear. */
+  /** Waits for any OrangeHRM loading indicator (spinner or form loader) to disappear. */
   async waitForNoSpinner() {
-    const spinner = this.page.locator('.oxd-loading-spinner');
-    if (await spinner.count()) {
-      await spinner.first().waitFor({ state: 'detached', timeout: 15_000 }).catch(() => {});
+    const loaders = this.page.locator('.oxd-loading-spinner, .oxd-form-loader');
+    const count = await loaders.count();
+    if (count > 0) {
+      await loaders
+        .first()
+        .waitFor({ state: 'detached', timeout: 20_000 })
+        .catch(() => {});
     }
   }
 }
