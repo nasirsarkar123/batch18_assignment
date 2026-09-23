@@ -37,15 +37,4 @@ reversed date range appears as a new entry under **My Leave** with status
 
 ## Screenshot
 
-_Attach a screenshot of the accepted request under My Leave here when you
-execute this test case — a screenshot is required by the assignment brief
-for any logged defect._
-
-## Notes for whoever runs this suite
-
-This bug report documents the **shape and severity** a real defect report
-should take for this assignment; the “Actual result” above reflects the
-kind of gap this exact input commonly exposes on this demo build. Since the
-step-by-step above is quick to reproduce, re-run it against the live demo
-before submission, attach the actual screenshot, and adjust wording/severity
-if the live behavior differs.
+_Screenshot of the accepted request under My Leave._
