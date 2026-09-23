@@ -1,6 +1,6 @@
-# Part A — UI Automation (Playwright + TypeScript, POM)
+# UI Automation (Playwright + TypeScript, POM)
 
-Automates the four required scenarios against the OrangeHRM demo:
+Automates four core scenarios against the OrangeHRM demo:
 https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
 
 ## Tech stack
@@ -21,10 +21,10 @@ ui-automation/
 │   ├── AdminPage.ts
 │   └── LeavePage.ts
 ├── tests/                  # one spec per scenario, each independent
-│   ├── login.spec.ts               # Q1 — invalid login
-│   ├── pim-add-employee.spec.ts    # Q2 — add employee + search + logout
-│   ├── admin-edit-user.spec.ts     # Q3 — search/edit/persist a user
-│   └── leave-apply-cancel.spec.ts  # Q4 — apply, verify, cancel
+│   ├── login.spec.ts               # invalid login shows the correct error
+│   ├── pim-add-employee.spec.ts    # add employee + search + logout
+│   ├── admin-edit-user.spec.ts     # search/edit a user, verify it persists
+│   └── leave-apply-cancel.spec.ts  # apply for leave, verify, cancel
 ├── utils/dataGenerator.ts  # random name/date/username generator (no external deps)
 └── playwright.config.ts
 ```
@@ -81,15 +81,15 @@ Every `npm test` run regenerates both reports:
   worker and `fullyParallel: false` so scenarios never race for shared
   state, but each spec file also logs in and builds its own test data from
   scratch, so it never depends on another spec having run first.
-- **Q2 (PIM)** generates a random first/last name per run and verifies the
-  new employee is searchable in the Employee List afterwards.
-- **Q3 (Admin)** creates its own disposable user (random username) instead
-  of editing a shared/admin account, so it's safe to re-run against the
-  shared public demo without locking anyone out; it edits that user's
+- **PIM (add employee)** generates a random first/last name per run and
+  verifies the new employee is searchable in the Employee List afterwards.
+- **Admin (edit user)** creates its own disposable user (random username)
+  instead of editing a shared/admin account, so it's safe to re-run against
+  the shared public demo without locking anyone out; it edits that user's
   status, saves, reloads the page, and re-searches to prove the change
   survived a refresh.
-- **Q4 (Leave)** applies for a leave date a week out (so re-runs never
-  collide with a previous run's request), asserts `Pending Approval`,
+- **Leave (apply/cancel)** applies for a leave date a week out (so re-runs
+  never collide with a previous run's request), asserts `Pending Approval`,
   cancels it, and asserts the status updates to `Cancelled`.
 - Selectors prefer accessible roles/placeholders (`getByRole`,
   `getByPlaceholder`) over brittle CSS where the OrangeHRM demo's markup
