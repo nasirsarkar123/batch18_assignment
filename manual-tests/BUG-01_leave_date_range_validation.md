@@ -34,7 +34,3 @@ The form should reject the submission with a validation message such as
 The request is submitted successfully with no validation message, and the
 reversed date range appears as a new entry under **My Leave** with status
 `Pending Approval`.
-
-## Screenshot
-
-_Screenshot of the accepted request under My Leave._
